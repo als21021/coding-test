@@ -31,15 +31,40 @@ elements	result
 /*
 풀이
 
+배열을 한 번 더 이어붙여서 반복이 편하게 함
 
+unordered_set을 활용해 중복을 피해서 저장할거임
+
+요소의 합을 저장할 변수를 하나 만들고
+
+부분 수열 시작 위치
+for(int i = 0; i < elements.size(); i++) {
+여기서 변수 초기화
+    for(int j = 0; j < elements.size(); j++) {
+        변수 += elements[i + j];
+        set.insert(변수);
+    }
+}
 */
 
-#include <string>
+#include<unordered_set>
 #include <vector>
 
 using namespace std;
 
 int solution(vector<int> elements) {
-    int answer = 0;
-    return answer;
+    vector<int> answer = elements;
+    answer.insert(answer.end(), elements.begin(), elements.end());
+
+    unordered_set<int> ss;
+
+    for(int i = 0; i < elements.size(); i++) {
+        int sum = 0;
+        for(int j = 0 ; j < elements.size(); j++) {
+            sum += answer[i + j];
+            ss.insert(sum);
+        }
+    }
+
+    return ss.size();
 }
