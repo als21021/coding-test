@@ -42,8 +42,9 @@ want	number	discount	result
 /*
 풀이
 
-want를 넣으면 해당 number가 나오게 mapping하고 discount 반복 돌려서 number-- 시키고
-반복마다 0이 있을 때까지 반복시켜서 전부 0이면 해당 index에서 빠져나와서 return 하면 답이 나오지 않을까
+map을 두개 만들어서 want_map과 discount_map이 일치하면 answer++; 하고 다음 날짜로 넘어가기
+
+처음 answer = 0, map 두 개 생성하고 want_map은 want와 number를 활용해 초기화
 */
 
 #include <string>
@@ -53,18 +54,24 @@ want를 넣으면 해당 number가 나오게 mapping하고 discount 반복 돌�
 using namespace std;
 
 int solution(vector<string> want, vector<int> number, vector<string> discount) {
-    unordered_map<string, int> ss;
+
+    int answer = 0;
+    unordered_map<string, int> want_map;
+    unordered_map<string, int> discount_map;
 
     for(size_t i = 0; i < want.size(); i++) {
-        ss[want[i]] = number[i];
+        want_map[want[i]] = number[i];
     }
 
-    for(auto dis : discount) {
-        if(ss.find(dis) != ss.end()) {
-            ss[dis]--;
-            for(auto p : ss) {
-                p.second;
-            }
+    for(size_t i = 0; i < discount.size(); i++) {
+        for(int j = i; j < i + 10 && j < discount.size(); j++) {
+
+            discount_map[discount[j]]++;
         }
+
+        if(want_map == discount_map) answer++;
+        discount_map.clear();
     }
+
+    return answer;
 }
